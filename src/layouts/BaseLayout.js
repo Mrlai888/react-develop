@@ -1,7 +1,11 @@
 /** @format */
-import React from 'react'
+import React from "react"
+import { Route, Switch } from "react-router-dom"
 import { Layout, Menu, Icon } from "antd"
-import './BaseLayout.scss'
+import "./BaseLayout.scss"
+
+import Welcome from "../views/Welcome"
+import UserManage from "../views/UserManage"
 
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
@@ -16,6 +20,12 @@ class BaseLayout extends React.Component {
     this.setState({ collapsed })
   }
 
+  /**
+   * 菜单点击跳转
+   */
+  handleMenuLink(path) {
+    this.props.history.push(path) // 编程式导航
+  }
   render() {
     return (
       <Layout className="base-layout">
@@ -26,7 +36,7 @@ class BaseLayout extends React.Component {
         >
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-            <Menu.Item key="1">
+            <Menu.Item key="1" onClick={this.handleMenuLink.bind(this, "/")}>
               <Icon type="pie-chart" />
               <span>Welcome</span>
             </Menu.Item>
@@ -39,14 +49,24 @@ class BaseLayout extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="3">用户列表</Menu.Item>
+              <Menu.Item
+                key="3"
+                onClick={this.handleMenuLink.bind(this, "/usermanage")}
+              >
+                用户列表
+              </Menu.Item>
               <Menu.Item key="4">权限设置</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
         <Layout>
-          <Header />
-          <Content></Content>
+          <Header className="header" />
+          <Content className="content">
+            <Switch>
+              <Route path="/usermanage" component={UserManage}></Route>
+              <Route path="/" component={Welcome}></Route>
+            </Switch>
+          </Content>
         </Layout>
       </Layout>
     )
