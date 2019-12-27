@@ -1,23 +1,50 @@
 /** @format */
 
 import React from "react"
+import fakeAuth from "../../fakeAuth"
 import { Link } from "react-router-dom"
-// import fakeAuth from "../../fakeAuth"
-
-import { Row, Col, Form, Icon, Input, Button } from "antd"
-// import "./index.scss"
+import { Row, Col, Form, Icon, Input, Button, message } from "antd"
+import { SignIn } from "../../api/UserApi"
 
 class Login extends React.PureComponent {
+  state = {
+    loading: false
+  }
+
   handleSubmit = e => {
+    // 重定向首页的数据
+    const { history, location } = this.props
+
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      this.setState({
+        loading: true
+      })
       if (!err) {
-        console.log("Received values of form: ", values)
+        SignIn(values).then(response => {
+          const { data } = response
+          if (data.code === 0) {
+            message.success("欢迎回来！管理员", 2, () => {
+              fakeAuth.authenticate(() => {
+                // 登录成功回到首页
+                let redirect = location.state || "/"
+                history.replace(redirect)
+              })
+            })
+          } else {
+            message.error(data.msg, 2, () => {
+              this.setState({
+                loading: false
+              })
+            })
+          }
+        })
       }
     })
   }
   render() {
     const { getFieldDecorator } = this.props.form
+    const { loading } = this.state
     return (
       <div className="page-login">
         <Row className="page-login_row" type="flex" align="middle">
@@ -25,7 +52,7 @@ class Login extends React.PureComponent {
             <div>
               <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
-                  <h1 className="login-form_title">Administrator</h1>
+                  <h1 className="login-form_title">后台管理系统</h1>
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator("username", {
@@ -71,6 +98,7 @@ class Login extends React.PureComponent {
                     type="primary"
                     htmlType="submit"
                     className="login-form_button"
+                    loading={loading}
                   >
                     登录
                   </Button>

@@ -4,21 +4,42 @@ import React from "react"
 // import { Link } from "react-router-dom"
 // import fakeAuth from "../../fakeAuth"
 
-import { Row, Col, Form, Icon, Input, Button, Radio } from "antd"
-
+import { Row, Col, Form, Icon, Input, Button, Radio, message } from "antd"
+import { SignUp } from "../../api/UserApi"
 class Register extends React.PureComponent {
   state = {
-    gender: 1
+    gender: 1,
+    loading: false
   }
+
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      this.setState({
+        loading: true
+      })
       if (!err) {
-        console.log("Received values of form: ", values)
+        SignUp(values).then(response => {
+          const { data } = response
+          if (data.code === 0) {
+            message.success("恭喜您注册成功！", 2, () => {
+              // 成功后跳转到登录页面
+              this.props.history.push("/login")
+            })
+          } else {
+            message.error(data.msg, 2, () => {
+              this.setState({
+                loading: false
+              })
+            })
+          }
+        })
       }
     })
   }
   render() {
+    const { loading } = this.state
+
     const { getFieldDecorator } = this.props.form
     return (
       <div className="page-register">
@@ -27,7 +48,7 @@ class Register extends React.PureComponent {
             <div>
               <Form onSubmit={this.handleSubmit} className="register-form">
                 <Form.Item>
-                  <h1 className="register-form_title">Administrator</h1>
+                  <h1 className="register-form_title">Register</h1>
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator("username", {
@@ -84,6 +105,7 @@ class Register extends React.PureComponent {
                     type="primary"
                     htmlType="submit"
                     className="register-form_button"
+                    loading={loading}
                   >
                     完成注册
                   </Button>
