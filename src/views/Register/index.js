@@ -1,13 +1,15 @@
 /** @format */
 
 import React from "react"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 // import fakeAuth from "../../fakeAuth"
 
-import { Row, Col, Form, Icon, Input, Button } from "antd"
-// import "./index.scss"
+import { Row, Col, Form, Icon, Input, Button, Radio } from "antd"
 
-class Login extends React.PureComponent {
+class Register extends React.PureComponent {
+  state = {
+    gender: 1
+  }
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -19,13 +21,13 @@ class Login extends React.PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <div className="page-login">
+      <div className="page-register">
         <Row className="page-login_row" type="flex" align="middle">
           <Col span={8} offset={8}>
             <div>
-              <Form onSubmit={this.handleSubmit} className="login-form">
+              <Form onSubmit={this.handleSubmit} className="register-form">
                 <Form.Item>
-                  <h1 className="login-form_title">Administrator</h1>
+                  <h1 className="register-form_title">Administrator</h1>
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator("username", {
@@ -67,17 +69,23 @@ class Login extends React.PureComponent {
                   )}
                 </Form.Item>
                 <Form.Item>
+                  {getFieldDecorator("gender", {
+                    rules: [{ required: true, message: "请选择一项" }],
+                    initialValue: this.state.gender
+                  })(
+                    <Radio.Group>
+                      <Radio value={1}>男</Radio>
+                      <Radio value={2}>女</Radio>
+                    </Radio.Group>
+                  )}
+                </Form.Item>
+                <Form.Item>
                   <Button
                     type="primary"
                     htmlType="submit"
-                    className="login-form_button"
+                    className="register-form_button"
                   >
-                    登录
-                  </Button>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="Default" className="login-form_button">
-                    <Link to="/register">注册</Link>
+                    完成注册
                   </Button>
                 </Form.Item>
               </Form>
@@ -89,4 +97,4 @@ class Login extends React.PureComponent {
   }
 }
 
-export default Form.create()(Login)
+export default Form.create()(Register)
