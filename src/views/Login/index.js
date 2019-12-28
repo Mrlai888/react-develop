@@ -17,10 +17,11 @@ class Login extends React.PureComponent {
 
     e.preventDefault()
     form.validateFields((err, values) => {
-      this.setState({
-        loading: true
-      })
+
       if (!err) {
+        this.setState({
+          loading: true
+        })
         SignIn(values).then(response => {
           const { data } = response
           if (data.code === 0) {
