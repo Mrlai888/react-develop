@@ -16,25 +16,8 @@ const App = () => {
         <Switch>
           <Route path="/register" component={Register}></Route>
           <Route path="/login" component={Login}></Route>
-          <PrivateRoute path="/" component={BaseLayout}></PrivateRoute>
           {/* 实现登录拦截 */}
-          {/* <Route
-            path="/"
-            render={props => {
-              if (fakeAuth.isAuthenticated) {
-                return <BaseLayout {...props} />
-              } else {
-                return (
-                  <Redirect
-                    to={{
-                      pathname: "/login",
-                      state: props.match.url
-                    }}
-                  ></Redirect>
-                )
-              }
-            }}
-          ></Route> */}
+          <PrivateRoute path="/" component={BaseLayout}></PrivateRoute>
         </Switch>
       </Router>
     </Provider>

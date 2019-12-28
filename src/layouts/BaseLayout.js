@@ -5,7 +5,8 @@ import { Layout, Menu, Icon } from "antd"
 import "./BaseLayout.scss"
 
 import Welcome from "../views/Welcome"
-import UserManage from "../views/UserManage"
+import List from "../views/UserManage/List"
+import Auth from "../views/UserManage/Auth"
 
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
@@ -51,11 +52,16 @@ class BaseLayout extends React.Component {
             >
               <Menu.Item
                 key="3"
-                onClick={this.handleMenuLink.bind(this, "/usermanage")}
+                onClick={this.handleMenuLink.bind(this, "/usermanage/list")}
               >
                 用户列表
               </Menu.Item>
-              <Menu.Item key="4">权限设置</Menu.Item>
+              <Menu.Item
+                key="4"
+                onClick={this.handleMenuLink.bind(this, "/usermanage/auth")}
+              >
+                权限设置
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
@@ -63,7 +69,8 @@ class BaseLayout extends React.Component {
           <Header className="header" />
           <Content className="content">
             <Switch>
-              <Route path="/usermanage" component={UserManage}></Route>
+              <Route path="/usermanage/auth" component={Auth}></Route>
+              <Route path="/usermanage/list" component={List}></Route>
               <Route path="/" component={Welcome}></Route>
             </Switch>
           </Content>
