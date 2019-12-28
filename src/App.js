@@ -4,8 +4,7 @@ import React from "react"
 import { Provider } from "react-redux"
 import { HashRouter as Router, Route, Switch } from "react-router-dom"
 
-// import fakeAuth from "./fakeAuth"
-import PrivateRoute from './utils/PrivateRoute'
+import PrivateRoute from "./utils/PrivateRoute"
 import BaseLayout from "./layouts/BaseLayout"
 import Login from "./views/Login"
 import Register from "./views/Register"
