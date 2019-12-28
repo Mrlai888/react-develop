@@ -1,7 +1,8 @@
 /** @format */
 
 import React from "react"
-import fakeAuth from "../../fakeAuth"
+// import fakeAuth from "../../fakeAuth"
+import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { Row, Col, Form, Icon, Input, Button, message } from "antd"
 import { SignIn } from "../../api/UserApi"
@@ -13,7 +14,7 @@ class Login extends React.PureComponent {
 
   handleSubmit = e => {
     // 重定向首页的数据
-    const { history, location } = this.props
+    const { history, location, handleLogin } = this.props
 
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -24,12 +25,13 @@ class Login extends React.PureComponent {
         SignIn(values).then(response => {
           const { data } = response
           if (data.code === 0) {
+            handleLogin(data.data)
             message.success("欢迎回来！管理员", 2, () => {
-              fakeAuth.authenticate(() => {
+              // fakeAuth.authenticate(() => {
                 // 登录成功回到首页
-                let redirect = location.state || "/"
+                let redirect = location.state ? location.state.redirect : "/"
                 history.replace(redirect)
-              })
+              // })
             })
           } else {
             message.error(data.msg, 2, () => {
@@ -117,4 +119,13 @@ class Login extends React.PureComponent {
   }
 }
 
-export default Form.create()(Login)
+export default connect(null, dispatch => {
+  return {
+    handleLogin(user) {
+      dispatch({
+        type: "LOGIN",
+        user
+      })
+    }
+  }
+})(Form.create()(Login))
