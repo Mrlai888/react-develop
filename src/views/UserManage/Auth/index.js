@@ -1,9 +1,10 @@
-import React from 'react'
+/** @format */
 
+import React from "react"
 const Auth = () => {
-  return(
+  return (
     <div>
-      Auth
+      <h1>权限</h1>
     </div>
   )
 }

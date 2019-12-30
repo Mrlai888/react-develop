@@ -3,10 +3,24 @@
 
 // 用户列表
 import React, { useState, useEffect } from "react"
-import { Table, Divider, Button } from "antd"
+import { Table, Divider, Button, Modal } from "antd"
 import { findUser, deleteUser } from "../../../api/UserApi"
 
 const List = ({ handleDlete, history }) => {
+  // 用户列表
+  const [useList, setList] = useState([])
+
+  // 每页显示条数
+  const [limt] = useState(10)
+
+  // 总条数
+  const [total, setTotal] = useState(1)
+
+  // 加载
+  const [loading, setLoading] = useState(false)
+
+  const { confirm } = Modal
+
   const columns = [
     {
       title: "用户编号",
@@ -43,31 +57,37 @@ const List = ({ handleDlete, history }) => {
             icon="delete"
             shape="circle"
             onClick={() => {
-              handleDlete(text)
-              setTimeout(() => {
-                history.go()
-              },300)
+              return handleDlete(record.id)
+              // handleDlete(text)
+              // setTimeout(() => {
+              //   history.go()
+              // },300)
             }}
           ></Button>
         </span>
       )
     }
   ]
-  handleDlete = text => {
-    deleteUser(text.id)
-
+  handleDlete = id => {
+    confirm({
+      title: "是否要删除当前信息?",
+      // content: "Some descriptions",
+      okText: "确认",
+      okType: "primary",
+      cancelText: "取消",
+      width: '500px',
+      onOk() {
+        deleteUser(id)
+        let newData = [...useList]
+        const value = newData.findIndex(item => {
+          return item.id === id
+        })
+        newData.splice(value, 1)
+        setList(newData)
+      },
+      onCancel() {}
+    })
   }
-  // 用户列表
-  const [useList, setList] = useState([])
-
-  // 每页显示条数
-  const [limt] = useState(10)
-
-  // 总条数
-  const [total, setTotal] = useState(1)
-
-  // 加载
-  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getListPage(1)

@@ -160,3 +160,25 @@ body,
     height: 100%;
   }
 }
+.base-layout .content {
+  margin: 0;
+  height: 100%;
+
+  .page-welcome {
+    height: 100%;
+    .ant-carousel .slick-slide {
+      text-align: center;
+      height: 160px;
+      line-height: 160px;
+      // background: #364d79;
+      overflow: hidden;
+      img {
+        display: block;
+        height: 500px;
+        border: 1px solid #000;
+      }
+    }
+  }
+}
+
+// border: 1px solid #000;
