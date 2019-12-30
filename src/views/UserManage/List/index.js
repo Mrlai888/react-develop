@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react"
 import { Table, Divider, Button } from "antd"
 import { findUser, deleteUser } from "../../../api/UserApi"
 
-const List = ({ handleDlete }) => {
+const List = ({ handleDlete, history }) => {
   const columns = [
     {
       title: "用户编号",
@@ -43,21 +43,25 @@ const List = ({ handleDlete }) => {
             icon="delete"
             shape="circle"
             onClick={() => {
-              deleteUser(text.id)
+              handleDlete(text)
+              setTimeout(() => {
+                history.go()
+              },300)
             }}
           ></Button>
         </span>
       )
     }
   ]
-  // handleDlete = text => {
-  //   console.log(text.id)
-  // }
+  handleDlete = text => {
+    deleteUser(text.id)
+
+  }
   // 用户列表
   const [useList, setList] = useState([])
 
   // 每页显示条数
-  const [limt] = useState(9)
+  const [limt] = useState(10)
 
   // 总条数
   const [total, setTotal] = useState(1)

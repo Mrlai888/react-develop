@@ -26,7 +26,7 @@ class Login extends React.PureComponent {
           const { data } = response
           if (data.code === 0) {
             handleLogin(data.data)
-            message.success("欢迎回来！管理员", 2, () => {
+            message.success("欢迎回来！管理员", 1, () => {
               // fakeAuth.authenticate(() => {
               // 登录成功回到首页
               let redirect = location.state ? location.state.redirect : "/"
@@ -34,7 +34,7 @@ class Login extends React.PureComponent {
               // })
             })
           } else {
-            message.error(data.msg, 2, () => {
+            message.error(data.msg, 1, () => {
               this.setState({
                 loading: false
               })
