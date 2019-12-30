@@ -57,7 +57,7 @@ const List = ({ handleDlete }) => {
   const [useList, setList] = useState([])
 
   // 每页显示条数
-  const [limt] = useState(8)
+  const [limt] = useState(9)
 
   // 总条数
   const [total, setTotal] = useState(1)
@@ -66,14 +66,15 @@ const List = ({ handleDlete }) => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    findUserPage(1)
+    getListPage(1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onChange = page => {
-    findUserPage(page)
+    getListPage(page)
   }
 
-  const findUserPage = page => {
+  const getListPage = page => {
     // 加载
     setLoading(true)
 
@@ -96,7 +97,8 @@ const List = ({ handleDlete }) => {
         pagination={{
           total: total,
           defaultPageSize: limt,
-          onChange: onChange
+          onChange: onChange,
+          hideOnSinglePage: true
         }}
       ></Table>
     </div>

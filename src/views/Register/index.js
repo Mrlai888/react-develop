@@ -15,10 +15,10 @@ class Register extends React.PureComponent {
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      this.setState({
-        loading: true
-      })
       if (!err) {
+        this.setState({
+          loading: true
+        })
         SignUp(values).then(response => {
           const { data } = response
           if (data.code === 0) {
