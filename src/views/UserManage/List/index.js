@@ -1,32 +1,58 @@
 /** @format */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 // 用户列表
 import React, { useState, useEffect } from "react"
-import { Table } from "antd"
-import { findUser } from "../../../api/UserApi"
+import { Table, Divider, Button } from "antd"
+import { findUser, deleteUser } from "../../../api/UserApi"
 
-const columns = [
-  {
-    title: "用户编号",
-    dataIndex: "id"
-  },
-  {
-    title: "用户名",
-    dataIndex: "username"
-  },
-  {
-    title: "性别",
-    dataIndex: "gender",
-    render(col, row) {
-      if (row.gender === 1) {
-        return "男"
-      } else {
-        return "女"
+const List = ({ handleDlete }) => {
+  const columns = [
+    {
+      title: "用户编号",
+      dataIndex: "id"
+    },
+    {
+      title: "用户名",
+      dataIndex: "username"
+    },
+    {
+      title: "密码",
+      dataIndex: "password"
+    },
+    {
+      title: "性别",
+      dataIndex: "gender",
+      render(col, row) {
+        if (row.gender === 1) {
+          return "男"
+        } else {
+          return "女"
+        }
       }
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <span>
+          <Button type="primary" icon="edit" shape="circle"></Button>
+          <Divider type="vertical" />
+          <Button
+            type="danger"
+            icon="delete"
+            shape="circle"
+            onClick={() => {
+              deleteUser(text.id)
+            }}
+          ></Button>
+        </span>
+      )
     }
-  }
-]
-
-const List = () => {
+  ]
+  // handleDlete = text => {
+  //   console.log(text.id)
+  // }
   // 用户列表
   const [useList, setList] = useState([])
 

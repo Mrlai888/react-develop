@@ -20,8 +20,12 @@ export const SignIn = data => {
 /**
  * 查询用户信息
  */
-export const findUser = (params) => {
-  return Axios.get("/users",{
+export const findUser = params => {
+  return Axios.get("/users", {
     params
   })
+}
+
+export const deleteUser = params => {
+  return Axios.delete(`/users/${params}`)
 }
