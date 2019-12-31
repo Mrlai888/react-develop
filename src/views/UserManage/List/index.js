@@ -5,8 +5,7 @@
 import React, { useState, useEffect } from "react"
 import { Table, Divider, Button, Modal } from "antd"
 import { findUser, deleteUser } from "../../../api/UserApi"
-
-const List = ({ handleDlete, history }) => {
+const List = ({ handleDlete }) => {
   // 用户列表
   const [useList, setList] = useState([])
 
@@ -75,7 +74,7 @@ const List = ({ handleDlete, history }) => {
       okText: "确认",
       okType: "primary",
       cancelText: "取消",
-      width: '500px',
+      width: "500px",
       onOk() {
         deleteUser(id)
         let newData = [...useList]

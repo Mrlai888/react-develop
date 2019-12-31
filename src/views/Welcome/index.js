@@ -1,31 +1,40 @@
 /** @format */
 
 import React from "react"
-import { Carousel } from "antd"
+import { Descriptions, Badge } from "antd"
 class Welcome extends React.PureComponent {
   render() {
     return (
-      <div className="page-welcome">
-        <Carousel autoplay>
-          <div>
-            1321321321231231313132132132312123312312
-            <img src="../../pic/13340.jpg" alt="" />
-            {/* <h3>1</h3> */}
-          </div>
-          <div>
-            <img src="../../pic/15167.jpg" alt="" />
-            {/* <h3>2</h3> */}
-          </div>
-          <div>
-            <img src="../../pic/7672.jpg" alt="" />
-            {/* <h3>3</h3> */}
-          </div>
-          <div>
-            {/* <h3>4</h3> */}
-            <img src="../../pic/8067.jpg" alt="" />
-          </div>
-        </Carousel>
-      </div>
+      <Descriptions title="React 后台管理系统" layout="vertical" bordered>
+        <Descriptions.Item label="组件库">Ant Design</Descriptions.Item>
+        <Descriptions.Item label="数据来源">jsonserver模拟数据</Descriptions.Item>
+        <Descriptions.Item label="数据请求方式">Axios</Descriptions.Item>
+        <Descriptions.Item label="开始时间">
+          2019-12-30 09:40
+        </Descriptions.Item>
+        <Descriptions.Item label="结束时间" span={2}>
+          ---
+        </Descriptions.Item>
+        <Descriptions.Item label="项目状态" span={3}>
+          <Badge status="processing" text="开发中" />
+        </Descriptions.Item>
+        <Descriptions.Item label="Negotiated Amount">$80.00</Descriptions.Item>
+        <Descriptions.Item label="Discount">$20.00</Descriptions.Item>
+        <Descriptions.Item label="Official Receipts">$60.00</Descriptions.Item>
+        <Descriptions.Item label="Config Info">
+          Data disk type: MongoDB
+          <br />
+          Database version: 3.4
+          <br />
+          Package: dds.mongo.mid
+          <br />
+          Storage space: 10 GB
+          <br />
+          Replication factor: 3
+          <br />
+          Region: East China 1<br />
+        </Descriptions.Item>
+      </Descriptions>
     )
   }
 }

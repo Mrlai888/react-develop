@@ -1,7 +1,9 @@
 /** @format */
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
 import { Route, Switch } from "react-router-dom"
-import { Layout, Menu, Icon } from "antd"
+import { Layout, Menu, Icon, Avatar, Badge } from "antd"
 import "./BaseLayout.scss"
 
 import Welcome from "../views/Welcome"
@@ -16,6 +18,12 @@ class BaseLayout extends React.Component {
     collapsed: false
   }
 
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
+    })
+  }
+
   onCollapse = collapsed => {
     console.log(collapsed)
     this.setState({ collapsed })
@@ -27,6 +35,7 @@ class BaseLayout extends React.Component {
   handleMenuLink(path) {
     this.props.history.push(path) // 编程式导航
   }
+
   render() {
     return (
       <Layout className="base-layout">
@@ -66,7 +75,24 @@ class BaseLayout extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header className="header" />
+          <Header className="header">
+            <Icon
+              style={{ fontSize: "22px" }}
+              className="trigger"
+              type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
+              onClick={this.toggle}
+            />
+            <span style={{ float: "right", marginRight: "50px" }}>
+              <Badge count={"99+"}>
+                <Avatar
+                  shape="square"
+                  size="large"
+                  icon="user"
+                  src="https://i.loli.net/2019/12/31/C2A4ihxotVrwMvZ.jpg"
+                />
+              </Badge>
+            </span>
+          </Header>
           <Content className="content">
             <Switch>
               <Route path="/usermanage/auth" component={Auth}></Route>
