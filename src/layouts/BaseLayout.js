@@ -15,7 +15,8 @@ const { SubMenu } = Menu
 
 class BaseLayout extends React.Component {
   state = {
-    collapsed: false
+    collapsed: false,
+    current: "mail"
   }
 
   toggle = () => {
@@ -25,17 +26,21 @@ class BaseLayout extends React.Component {
   }
 
   onCollapse = collapsed => {
-    console.log(collapsed)
+    // console.log(collapsed)
     this.setState({ collapsed })
   }
 
-  /**
-   * 菜单点击跳转
-   */
+  //菜单点击跳转
   handleMenuLink(path) {
     this.props.history.push(path) // 编程式导航
   }
 
+  handleClick = e => {
+    console.log("click ", e)
+    this.setState({
+      current: e.key
+    })
+  }
   render() {
     return (
       <Layout className="base-layout">
@@ -82,16 +87,37 @@ class BaseLayout extends React.Component {
               type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
               onClick={this.toggle}
             />
-            <span style={{ float: "right", marginRight: "50px" }}>
-              <Badge count={"99+"}>
-                <Avatar
-                  shape="square"
-                  size="large"
-                  icon="user"
-                  src="https://i.loli.net/2019/12/31/C2A4ihxotVrwMvZ.jpg"
-                />
-              </Badge>
-            </span>
+            <Menu
+              onClick={this.handleClick}
+              selectedKeys={[this.state.current]}
+              mode="horizontal"
+              style={{ marginTop: "-47px", borderBottom: "none" }}
+            >
+              <SubMenu
+                style={{ float: "right" , top:'-5px'}}
+                title={
+                  <span className="submenu-title-wrapper">
+                    <Badge count={"99+"}>
+                      <Avatar
+                        shape="square"
+                        size="large"
+                        icon="user"
+                        src="https://i.loli.net/2019/12/31/C2A4ihxotVrwMvZ.jpg"
+                      />
+                    </Badge>
+                  </span>
+                }
+              >
+                <Menu.ItemGroup title="Item 1">
+                  <Menu.Item key="setting:1">Option 1</Menu.Item>
+                  <Menu.Item key="setting:2">Option 2</Menu.Item>
+                </Menu.ItemGroup>
+                <Menu.ItemGroup title="Item 2">
+                  <Menu.Item key="setting:3">Option 3</Menu.Item>
+                  <Menu.Item key="setting:4">Option 4</Menu.Item>
+                </Menu.ItemGroup>
+              </SubMenu>
+            </Menu>
           </Header>
           <Content className="content">
             <Switch>
@@ -106,4 +132,14 @@ class BaseLayout extends React.Component {
   }
 }
 
+// {/* <span style={{ float: "right", marginRight: "50px" }}>
+// <Badge count={"99+"}>
+//   <Avatar
+//     shape="square"
+//     size="large"
+//     icon="user"
+//     src="https://i.loli.net/2019/12/31/C2A4ihxotVrwMvZ.jpg"
+//   />
+// </Badge>
+// </span> */}
 export default BaseLayout
