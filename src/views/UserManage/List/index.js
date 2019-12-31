@@ -10,7 +10,7 @@ const List = ({ handleDlete }) => {
   const [useList, setList] = useState([])
 
   // 每页显示条数
-  const [limt] = useState(10)
+  const [limt] = useState(8)
 
   // 总条数
   const [total, setTotal] = useState(1)

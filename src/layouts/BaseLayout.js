@@ -43,7 +43,10 @@ class BaseLayout extends React.Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
-          <div className="logo" />
+          <div className="logo">
+            <img src="pic/logo192.png" alt="" style={{ height: "100%" }} />
+            <span style={{ color: "red" }}></span>
+          </div>
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
             <Menu.Item key="1" onClick={this.handleMenuLink.bind(this, "/")}>
               <Icon type="pie-chart" />
