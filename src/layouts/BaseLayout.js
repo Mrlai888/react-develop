@@ -2,7 +2,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, withRouter } from "react-router-dom"
 import { Layout, Menu, Icon, Avatar, Badge } from "antd"
 import "./BaseLayout.scss"
 
@@ -35,12 +35,6 @@ class BaseLayout extends React.Component {
     this.props.history.push(path) // 编程式导航
   }
 
-  handleClick = e => {
-    console.log("click ", e)
-    this.setState({
-      current: e.key
-    })
-  }
   render() {
     return (
       <Layout className="base-layout">
@@ -94,7 +88,7 @@ class BaseLayout extends React.Component {
               style={{ marginTop: "-47px", borderBottom: "none" }}
             >
               <SubMenu
-                style={{ float: "right" , top:'-5px'}}
+                style={{ float: "right", top: "-5px" }}
                 title={
                   <span className="submenu-title-wrapper">
                     <Badge count={"99+"}>
@@ -108,13 +102,32 @@ class BaseLayout extends React.Component {
                   </span>
                 }
               >
-                <Menu.ItemGroup title="Item 1">
-                  <Menu.Item key="setting:1">Option 1</Menu.Item>
-                  <Menu.Item key="setting:2">Option 2</Menu.Item>
+                <Menu.ItemGroup title="技术相关">
+                  <Menu.Item key="setting:1">
+                    <a href="https://meitian3611.github.io"> 个人博客</a>
+                  </Menu.Item>
+                  <Menu.Item key="setting:2">
+                    <a href="https://ant.design/index-cn">Ant Design</a>
+                  </Menu.Item>
                 </Menu.ItemGroup>
-                <Menu.ItemGroup title="Item 2">
-                  <Menu.Item key="setting:3">Option 3</Menu.Item>
-                  <Menu.Item key="setting:4">Option 4</Menu.Item>
+                <Menu.ItemGroup title="操作">
+                  <Menu.Item
+                    key="setting:3"
+                    onClick={() => {
+                      this.props.history.replace("/")
+                    }}
+                  >
+                    返回首页
+                  </Menu.Item>
+                  <Menu.Item
+                    key="setting:4"
+                    onClick={() => {
+                      window.sessionStorage.setItem("user", null)
+                      this.props.history.go(0)
+                    }}
+                  >
+                    退出登录
+                  </Menu.Item>
                 </Menu.ItemGroup>
               </SubMenu>
             </Menu>
@@ -131,15 +144,4 @@ class BaseLayout extends React.Component {
     )
   }
 }
-
-// {/* <span style={{ float: "right", marginRight: "50px" }}>
-// <Badge count={"99+"}>
-//   <Avatar
-//     shape="square"
-//     size="large"
-//     icon="user"
-//     src="https://i.loli.net/2019/12/31/C2A4ihxotVrwMvZ.jpg"
-//   />
-// </Badge>
-// </span> */}
-export default BaseLayout
+export default withRouter(BaseLayout)
