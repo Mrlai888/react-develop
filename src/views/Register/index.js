@@ -56,7 +56,7 @@ class Register extends React.PureComponent {
                       { required: true, message: "账号不能为空！" },
                       { type: "email", message: "请输入正确的邮箱地址！" },
                       { min: 4, message: "账号不能小于4位数" },
-                      { max: 16, message: "账号不能大于16位数" }
+                      { max: 20, message: "账号不能大于20位数" }
 
                     ]
                   })(

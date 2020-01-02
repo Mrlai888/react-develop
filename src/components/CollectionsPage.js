@@ -29,7 +29,7 @@ const CreateForm = Form.create({ name: "form_in_modal" })(
                   },
                   { type: "email", message: "请输入正确的邮箱地址！" },
                   { min: 4, message: "账号不能小于4位数" },
-                  { max: 16, message: "账号不能大于16位数" }
+                  { max: 20, message: "账号不能大于20位数" }
                 ]
               })(<Input />)}
             </Form.Item>
@@ -44,11 +44,11 @@ const CreateForm = Form.create({ name: "form_in_modal" })(
             </Form.Item>
             <Form.Item className="collection-create-form_last-form-item">
               {getFieldDecorator("gender", {
-                initialValue: "男"
+                initialValue: 1
               })(
                 <Radio.Group>
-                  <Radio value="男">男</Radio>
-                  <Radio value="女">女</Radio>
+                  <Radio value={1}>男</Radio>
+                  <Radio value={2}>女</Radio>
                 </Radio.Group>
               )}
             </Form.Item>
@@ -61,7 +61,8 @@ const CreateForm = Form.create({ name: "form_in_modal" })(
 
 class CollectionsPage extends React.Component {
   state = {
-    visible: false
+    visible: false,
+    loading: false
   }
 
   showModal = () => {
@@ -70,17 +71,16 @@ class CollectionsPage extends React.Component {
   }
 
   handleCancel = () => {
-    this.setState({ visible: false })
+    this.setState({ visible: false, loading: false })
   }
 
   handleCreate = () => {
+    this.setState({ loading: true })
     const { form } = this.formRef.props
     form.validateFields((err, values) => {
       if (err) {
         return
       }
-      const id = this.props.id
-      console.log(id)
       listWrite(this.props.id, {
         username: values.username,
         password: values.password,
@@ -88,14 +88,12 @@ class CollectionsPage extends React.Component {
       }).then(() => {
         findUser().then(response => {
           const { data } = response
-          // console.log(data)
           this.props.changeUser(data)
         })
       })
-
       console.log("Received values of form: ", values)
       form.resetFields()
-      this.setState({ visible: false })
+      this.setState({ visible: false, loading: false })
     })
   }
 
