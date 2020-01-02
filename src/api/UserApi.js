@@ -29,3 +29,8 @@ export const findUser = params => {
 export const deleteUser = params => {
   return Axios.delete(`/users/${params}`)
 }
+
+// 编辑保存
+export const listWrite = (id, data) => {
+  return Axios.patch(`/users/${id}`, data)
+}

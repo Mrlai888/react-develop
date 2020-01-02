@@ -3,11 +3,11 @@
 
 // 用户列表
 import React, { useState, useEffect } from "react"
-import { Table, Divider, Button, Modal, Input } from "antd"
+import { Table, Divider, Button, Modal } from "antd"
 import { findUser, deleteUser } from "../../../api/UserApi"
-// import Confirm from "../../../components/Confirm"
+import CollectionsPage from "../../../components/CollectionsPage"
 
-const List = ({ handleDlete, handleWrite, handleCancel, handleOk }) => {
+const List = ({ handleDlete }) => {
   // 用户列表
   const [useList, setList] = useState([])
 
@@ -19,9 +19,6 @@ const List = ({ handleDlete, handleWrite, handleCancel, handleOk }) => {
 
   // 加载
   const [loading, setLoading] = useState(false)
-
-  // 弹出窗显示隐藏
-  const [visible, setVisible] = useState(false)
 
   const { confirm } = Modal
 
@@ -53,43 +50,13 @@ const List = ({ handleDlete, handleWrite, handleCancel, handleOk }) => {
       title: "操作",
       key: "action",
       render: (text, record) => (
-        <span>
-          <Button
-            type="primary"
-            icon="edit"
-            shape="circle"
-            onClick={() => {
-              return handleWrite(record.id)
+        <span style={{ display: "flex" }}>
+          <CollectionsPage
+            id={record.id}
+            changeUser={data => {
+              handleChnage(data)
             }}
-          ></Button>
-          <Modal
-            maskStyle={{
-              background: "rgba(0,0,0,.1)"
-            }}
-            visible={visible}
-            title="编辑内容"
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[
-              <Button key="back" onClick={handleCancel}>
-                返回
-              </Button>,
-              <Button
-                key="submit"
-                type="primary"
-                loading={loading}
-                onClick={handleOk}
-              >
-                保存
-              </Button>
-            ]}
-          >
-            <p>用户名:</p>
-            <Input></Input>
-            <p>密码:</p>
-            <Input></Input>
-            <p>性别</p>
-          </Modal>
+          />
           <Divider type="vertical" />
           <Button
             type="danger"
@@ -103,6 +70,10 @@ const List = ({ handleDlete, handleWrite, handleCancel, handleOk }) => {
       )
     }
   ]
+  const handleChnage = data => {
+    // console.log(data)
+    setList(data)
+  }
   handleDlete = id => {
     confirm({
       title: "是否要删除当前信息?",
@@ -123,23 +94,6 @@ const List = ({ handleDlete, handleWrite, handleCancel, handleOk }) => {
       onCancel() {}
     })
   }
-  handleWrite = id => {
-    setVisible(true)
-    console.log(id)
-  }
-
-  handleOk = () => {
-    setLoading(true)
-    setTimeout(() => {
-      setVisible(false)
-      setLoading(false)
-    }, 2000)
-  }
-
-  handleCancel = () => {
-    setVisible(false)
-  }
-
   useEffect(() => {
     getListPage(1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
