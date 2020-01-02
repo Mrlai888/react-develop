@@ -3,9 +3,11 @@
 
 // 用户列表
 import React, { useState, useEffect } from "react"
-import { Table, Divider, Button, Modal } from "antd"
+import { Table, Divider, Button, Modal, Input } from "antd"
 import { findUser, deleteUser } from "../../../api/UserApi"
-const List = ({ handleDlete }) => {
+// import Confirm from "../../../components/Confirm"
+
+const List = ({ handleDlete, handleWrite, handleCancel, handleOk }) => {
   // 用户列表
   const [useList, setList] = useState([])
 
@@ -17,6 +19,9 @@ const List = ({ handleDlete }) => {
 
   // 加载
   const [loading, setLoading] = useState(false)
+
+  // 弹出窗显示隐藏
+  const [visible, setVisible] = useState(false)
 
   const { confirm } = Modal
 
@@ -49,7 +54,42 @@ const List = ({ handleDlete }) => {
       key: "action",
       render: (text, record) => (
         <span>
-          <Button type="primary" icon="edit" shape="circle"></Button>
+          <Button
+            type="primary"
+            icon="edit"
+            shape="circle"
+            onClick={() => {
+              return handleWrite(record.id)
+            }}
+          ></Button>
+          <Modal
+            maskStyle={{
+              background: "rgba(0,0,0,.1)"
+            }}
+            visible={visible}
+            title="编辑内容"
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                返回
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={loading}
+                onClick={handleOk}
+              >
+                保存
+              </Button>
+            ]}
+          >
+            <p>用户名:</p>
+            <Input></Input>
+            <p>密码:</p>
+            <Input></Input>
+            <p>性别</p>
+          </Modal>
           <Divider type="vertical" />
           <Button
             type="danger"
@@ -57,10 +97,6 @@ const List = ({ handleDlete }) => {
             shape="circle"
             onClick={() => {
               return handleDlete(record.id)
-              // handleDlete(text)
-              // setTimeout(() => {
-              //   history.go()
-              // },300)
             }}
           ></Button>
         </span>
@@ -86,6 +122,22 @@ const List = ({ handleDlete }) => {
       },
       onCancel() {}
     })
+  }
+  handleWrite = id => {
+    setVisible(true)
+    console.log(id)
+  }
+
+  handleOk = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setVisible(false)
+      setLoading(false)
+    }, 2000)
+  }
+
+  handleCancel = () => {
+    setVisible(false)
   }
 
   useEffect(() => {
